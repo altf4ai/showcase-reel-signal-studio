@@ -1,5 +1,5 @@
 import React from 'react';
-import {Freeze, OffthreadVideo, staticFile, useCurrentFrame} from 'remotion';
+import {Freeze, OffthreadVideo, getStaticFiles, staticFile, useCurrentFrame} from 'remotion';
 
 /**
  * A captured site shot with free time-remapping. `map(frame)` returns the source frame to show,
@@ -52,3 +52,6 @@ export const keyMap = (keys: [number, number][]) => (f: number) => {
   const [b, sb] = keys[keys.length - 1];
   return sb + (f - b) * ((sb - sa) / (b - a));
 };
+
+/** True if a capture exists in public/captures (lets a preview render before every shot is captured). */
+export const hasCapture = (name: string) => getStaticFiles().some(f => f.name === `captures/${name}.mp4`);

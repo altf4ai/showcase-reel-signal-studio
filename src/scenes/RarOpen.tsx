@@ -1,6 +1,6 @@
 import React from 'react';
 import {AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame} from 'remotion';
-import {Footage, keyMap} from '../components/Footage';
+import {Footage, hasCapture, keyMap} from '../components/Footage';
 import {Grain} from '../components/Grain';
 import {clash, satoshi} from '../fonts';
 import {E, clamp, prog, rand} from '../lib/anim';
@@ -57,7 +57,7 @@ export const RarOpen: React.FC = () => {
   const holeMap = keyMap([[0, 10], [HIT, 150], [END, 250]]);
   // rar_dive capture: scroll-driven push through the event horizon into the light streaks.
   const diveMap = keyMap([[INTRO + 6, 30], [END, 250]]);
-  const dive = prog(f, INTRO + 6, INTRO + 20, E.inOut);
+  const dive = hasCapture('rar_dive') ? prog(f, INTRO + 6, INTRO + 20, E.inOut) : 0;
   const push = interpolate(f, [0, END], [1.0, 1.08], clamp);
   const energy = Math.max(0, 1 - Math.abs(f - HIT) / 18);
   // interference in the last beat

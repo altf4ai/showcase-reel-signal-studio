@@ -1,6 +1,6 @@
 import React from 'react';
 import {AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig} from 'remotion';
-import {Footage} from '../components/Footage';
+import {Footage, hasCapture} from '../components/Footage';
 import {Grain} from '../components/Grain';
 import {Phone} from '../components/Phone';
 import {Slam} from '../components/Slam';
@@ -23,7 +23,8 @@ const Morph: React.FC = () => {
   const r = lerp(lerp(18, 34, m1), 64, m2);
   const which = m2 > 0.5 ? 2 : m1 > 0.5 ? 1 : 0;
   const xfade = which === 0 ? 1 - m1 * 2 : which === 1 ? Math.min((m1 - 0.5) * 2, 1 - m2 * 2) : (m2 - 0.5) * 2;
-  const names = ['hero', 't_hero', 'm_hero_still'];
+  const pick = (n: string) => (hasCapture(n) ? n : 'm_hero');
+  const names = ['hero', hasCapture('t_hero') ? 't_hero' : 'hero', pick('m_hero_still')];
   const out = prog(f, BEAT * 5 - 10, BEAT * 5, E.in);
   const label = ['desktop.', 'tablet.', 'mobile.'][which];
   return (
@@ -61,7 +62,7 @@ export const Responsive: React.FC = () => {
               return (
                 <div key={p.name} style={{position: 'absolute', transform: `translate(${p.x}px, ${p.y + (1 - e) * 1000 + par}px) rotate(${(i - 1) * 4 * (1 - e * 0.7)}deg)`}}>
                   <Phone width={380}>
-                    <Footage name={p.name} map={x => 20 + (x - PH) * p.speed * 1.4} />
+                    <Footage name={hasCapture(p.name) ? p.name : 'm_hero'} map={x => 20 + i * 120 + (x - PH) * p.speed * 1.4} />
                   </Phone>
                 </div>
               );
