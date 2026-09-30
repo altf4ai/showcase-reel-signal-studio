@@ -15,7 +15,7 @@ const Morph: React.FC = () => {
   const f = useCurrentFrame();
   const m1 = prog(f, BEAT * 1.5, BEAT * 1.5 + 14, E.inOut); // desktop -> tablet
   const m2 = prog(f, BEAT * 3, BEAT * 3 + 14, E.inOut); // tablet -> phone
-  const H = 860;
+  const H = 780;
   const wDesk = H * (16 / 9);
   const wTab = H * (834 / 1112);
   const wPh = H * (393 / 852);
@@ -28,14 +28,14 @@ const Morph: React.FC = () => {
   const out = prog(f, BEAT * 5 - 10, BEAT * 5, E.in);
   const label = ['desktop.', 'tablet.', 'mobile.'][which];
   return (
-    <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', opacity: 1 - out, transform: `scale(${1 - out * 0.1})`}}>
+    <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', paddingBottom: 90, opacity: 1 - out, transform: `scale(${1 - out * 0.1})`}}>
       <div style={{width: w, height: H, borderRadius: r, overflow: 'hidden', background: SR.red, position: 'relative',
         boxShadow: `0 0 0 ${lerp(0, 12, m2)}px #0b0a0a, 0 60px 120px -30px rgba(0,0,0,0.55)`}}>
         <div style={{position: 'absolute', inset: 0, opacity: Math.max(0.15, xfade)}}>
           <Footage name={names[which]} map={() => (which === 0 ? 180 : 40 + f * 0.5)} style={{objectFit: 'cover', objectPosition: 'top center'}} />
         </div>
       </div>
-      <div style={{position: 'absolute', left: 90, bottom: 80, fontFamily: interTight, fontWeight: 900, fontSize: 120, letterSpacing: '-0.055em', color: SR.ink}}>{label}</div>
+      <div style={{position: 'absolute', left: 80, bottom: 24, fontFamily: interTight, fontWeight: 900, fontSize: 96, letterSpacing: '-0.055em', color: SR.ink}}>{label}</div>
     </AbsoluteFill>
   );
 };
@@ -46,9 +46,10 @@ export const Responsive: React.FC = () => {
   const PH = BEAT * 5; // phones section starts
   const g = f - PH;
   const phones = [
-    {name: 'm_hero', x: -560, y: 60, d: 0, speed: 1.1},
-    {name: 'm_services', x: 0, y: -30, d: 6, speed: 1.0},
-    {name: 'm_why', x: 560, y: 60, d: 12, speed: 1.0},
+    // src windows chosen to stay clear of placeholder sections (testimonials) and late-loading blocks
+    {name: 'm_hero', x: -560, y: 110, d: 0, speed: 0.55, start: 40},
+    {name: 'm_services', x: 0, y: 60, d: 6, speed: 0.95, start: 20},
+    {name: 'm_story', x: 560, y: 110, d: 12, speed: 1.2, start: 20},
   ];
   return (
     <AbsoluteFill style={{background: SR.cream, overflow: 'hidden'}}>
@@ -62,7 +63,7 @@ export const Responsive: React.FC = () => {
               return (
                 <div key={p.name} style={{position: 'absolute', transform: `translate(${p.x}px, ${p.y + (1 - e) * 1000 + par}px) rotate(${(i - 1) * 4 * (1 - e * 0.7)}deg)`}}>
                   <Phone width={380}>
-                    <Footage name={hasCapture(p.name) ? p.name : 'm_hero'} map={x => 20 + i * 120 + (x - PH) * p.speed * 1.4} />
+                    <Footage name={hasCapture(p.name) ? p.name : 'm_hero'} map={x => p.start + Math.max(0, x - PH) * p.speed} />
                   </Phone>
                 </div>
               );

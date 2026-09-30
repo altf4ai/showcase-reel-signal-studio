@@ -46,7 +46,7 @@ export const Film: React.FC<{withAudio?: boolean}> = ({withAudio = true}) => (
     <S k="opener"><Opener withAudio={false} /></S>
     <S k="about">
       {/* tape marquee -> who we are -> mixing console, sped through */}
-      <BrowserShot name="about" dur={ABOUT_DUR} map={speedRamp([[0, 1.4], [180, 0.9]], 10)} label="02 — who we are" from="right" tilt={[6, 12]} />
+      <BrowserShot name="about" dur={ABOUT_DUR} map={speedRamp([[0, 1.0], [180, 0.55]], 0)} label="02 — who we are" from="right" tilt={[6, 12]} />
     </S>
     <S k="flurry"><NoiseFlurry /></S>
     <S k="story"><Story /></S>

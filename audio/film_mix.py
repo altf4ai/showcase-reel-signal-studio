@@ -88,6 +88,8 @@ for j in range(8):
 for j in range(11):
     fx.place(tick(2600 + (j % 4) * 500, amp=0.09), fr(180 + j * 1.6), 1, pan=-0.5 + j * 0.1)
 fx.place(shimmer(1568, 1.2, 0.08), fr(196), 1)
+fx.place(whoosh(0.9, 150, 9000, -0.2, 0.2), fr(186), 0.9)   # dive into RAR's light streaks
+fx.place(riser(0.9, 600, 6000), fr(186), 0.35)
 fx.place(glitch(0.45), fr(214), 0.9)
 fx.place(crt_off(), fr(238), 0.9)
 fx.place(static_burst(0.42, 0.55), fr(250), 1.0)
