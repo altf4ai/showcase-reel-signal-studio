@@ -3,7 +3,7 @@ import {interTight} from '../fonts';
 
 /** Minimal, modern browser chrome. Content area is exactly width x (width*9/16). */
 export const BrowserFrame: React.FC<{width: number; url?: string; dark?: boolean; radius?: number; children: React.ReactNode; shadow?: boolean}> = ({
-  width, url = 'signalroom.framer.website', dark = true, radius = 18, children, shadow = true,
+  width, url = 'signalroom.studio', dark = true, radius = 18, children, shadow = true,
 }) => {
   const bar = Math.round(width * 0.028);
   const contentH = Math.round((width * 9) / 16);

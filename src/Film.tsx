@@ -58,8 +58,9 @@ export const Film: React.FC<{withAudio?: boolean}> = ({withAudio = true}) => (
     <S k="why"><WhyBlitz /></S>
     <S k="responsive"><Responsive /></S>
     <S k="cta">
-      <BrowserShot name="cta" dur={CTA_DUR} map={keyMap([[0, 10], [BEAT * 3, 100], [BEAT * 5, 330], [BEAT * 7, 400], [CTA_DUR, 460]])} label="05 — let's build"
-        from="bottom" tilt={[7, 10]} zoom={{x: 1351, y: 864, at: BEAT * 7, to: 3.4}} />
+      <BrowserShot name="cta" dur={CTA_DUR} map={keyMap([[0, 10], [BEAT * 3, 100], [140, 340]])} label="05 — let's build"
+        from="bottom" tilt={[7, 10]} zoom={{x: 1351, y: 864, at: 226, to: 3.4}}
+        next={{name: 'footer', at: 140, map: keyMap([[140, 344], [168, 372], [200, 404], [206, 500], [236, 550], [CTA_DUR, 630]])}} />
     </S>
     <S k="end"><EndLockup /></S>
   </AbsoluteFill>

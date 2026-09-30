@@ -60,9 +60,8 @@ export const RarOpen: React.FC = () => {
   const dive = hasCapture('rar_dive') ? prog(f, INTRO + 6, INTRO + 20, E.inOut) : 0;
   const push = interpolate(f, [0, END], [1.0, 1.08], clamp);
   const energy = Math.max(0, 1 - Math.abs(f - HIT) / 18);
-  // interference in the last beat
+  // fade INTRODUCING as the CRT switch approaches
   const intf = prog(f, END - 26, END, E.in);
-  const slices = Array.from({length: 9});
 
   const labels: React.CSSProperties = {fontFamily: satoshi, fontWeight: 600, fontSize: 15, letterSpacing: '0.24em', color: RAR.iceDim, textTransform: 'uppercase'};
   const labelIn = prog(f, 30, 60, E.out);
@@ -113,23 +112,5 @@ export const RarOpen: React.FC = () => {
     </AbsoluteFill>
   );
 
-  if (intf <= 0) return content;
-  // Signal interference: horizontal slice displacement + RGB split, ramping into the channel switch.
-  return (
-    <AbsoluteFill style={{background: RAR.bg}}>
-      {slices.map((_, i) => {
-        const h = 1080 / slices.length;
-        const jitter = (rand(i * 7 + Math.floor(f / 2)) - 0.5) * 2;
-        const dx = jitter * intf * 160 * (rand(i + f) > 0.4 ? 1 : 0.2);
-        return (
-          <div key={i} style={{position: 'absolute', left: 0, top: i * h, width: 1920, height: h, overflow: 'hidden'}}>
-            <div style={{position: 'absolute', left: dx, top: -i * h, width: 1920, height: 1080}}>
-              <div style={{position: 'absolute', inset: 0, transform: `translateX(${intf * 14}px)`}}>{content}</div>
-            </div>
-          </div>
-        );
-      })}
-      <AbsoluteFill style={{background: 'repeating-linear-gradient(0deg, rgba(0,0,0,0.35) 0 2px, transparent 2px 4px)', opacity: intf}} />
-    </AbsoluteFill>
-  );
+  return content;
 };

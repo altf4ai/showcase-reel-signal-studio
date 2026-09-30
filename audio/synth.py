@@ -354,3 +354,119 @@ def master(x_st, target_peak=0.93):
     y = hp(y.T, 25).T
     y = np.tanh(y * 1.15)
     return y / (np.abs(y).max() + 1e-9) * target_peak
+
+
+# ------------------------------------------------------------------ ASMR / tactile palette (v2)
+# Close-mic, soft, satisfying. No drums, no music: made to sit under any track added in Instagram.
+
+def _body(freqs, dur, decay):
+    """Sum of damped resonant modes (a small physical object)."""
+    t = t_axis(dur)
+    return sum(a * np.sin(2 * np.pi * f * t) * np.exp(-t / d) for f, a, d in zip(freqs, [1, 0.6, 0.35, 0.2][:len(freqs)], decay))
+
+
+def mech_key(seed=0, amp=0.5):
+    """Mechanical keyboard 'thock': plastic keycap + spring + bottom-out."""
+    r = np.random.default_rng(seed)
+    dur = 0.09
+    n = int(dur * SR)
+    tr = bp(r.standard_normal(n), 1800, 9000) * exp_decay(n, 0.0025) * 0.8
+    body = _body([r.uniform(380, 520), r.uniform(900, 1300), r.uniform(2400, 3200)], dur, [0.018, 0.010, 0.006])
+    up = np.zeros(n)
+    o = int(r.uniform(0.035, 0.05) * SR)
+    up[o:] = bp(r.standard_normal(n - o), 2500, 8000) * exp_decay(n - o, 0.0015) * 0.25
+    return (tr + body * 0.55 + up) * amp
+
+
+def mouse_click(amp=0.5):
+    n = int(0.12 * SR)
+    press = bp(noise(n), 2500, 10000) * exp_decay(n, 0.0012)
+    press += _body([3100, 5200], 0.12, [0.004, 0.002]) * 0.4
+    rel = np.zeros(n)
+    o = int(0.07 * SR)
+    rel[o:] = press[: n - o] * 0.45
+    return (press + rel) * amp
+
+
+def wheel_ticks(dur, rate=18, amp=0.18, seed=5):
+    """Scroll-wheel ratchet: soft detent ticks at `rate` per second."""
+    r = np.random.default_rng(seed)
+    n = int(dur * SR)
+    out = np.zeros(n)
+    t = 0.0
+    while t < dur:
+        i = int(t * SR)
+        m = min(int(0.02 * SR), n - i)
+        tick_ = bp(r.standard_normal(m), 3000, 9000) * exp_decay(m, 0.0015) + _body([2200], m / SR, [0.003])[:m] * 0.3
+        out[i:i + m] += tick_ * r.uniform(0.7, 1.0)
+        t += 1 / rate * r.uniform(0.85, 1.15)
+    return out * amp
+
+
+def knob_detent(amp=0.45):
+    """Rotary TV channel knob: chunky click + metal spring."""
+    n = int(0.16 * SR)
+    clk = bp(noise(n), 1200, 7000) * exp_decay(n, 0.003)
+    body = _body([260, 740, 1650], 0.16, [0.03, 0.015, 0.008])
+    return sat(clk + body * 0.6, 1.2) * amp
+
+
+def paper_pat(amp=0.5):
+    """Sticker pressed onto a surface: soft palm pat + paper crinkle."""
+    n = int(0.22 * SR)
+    pat = lp(noise(n), 900) * exp_decay(n, 0.018) * 1.4
+    thump = osc_sine_glide(140, 80, 0.22, curve=14) * exp_decay(n, 0.03) * 0.5
+    crinkle = bp(noise(n), 2500, 9000) * exp_decay(n, 0.02) * (rng.random(n) > 0.6) * 0.5
+    return (pat + thump + crinkle) * amp
+
+
+def peel(dur=0.35, amp=0.35):
+    """Sticker / tape peel: rising crackly rip."""
+    n = int(dur * SR)
+    k = np.linspace(0, 1, n)
+    crackle = bp(noise(n), 1500, 10000) * (rng.random(n) > 0.5)
+    return sweep_filter(crackle, 1200, 8000, 'band', q=1.2) * np.sin(np.pi * k) ** 0.8 * amp
+
+
+def soft_thump(amp=0.6, f0=95, f1=48):
+    """Felt-mallet low thump instead of a trailer impact."""
+    n = int(0.6 * SR)
+    x = osc_sine_glide(f0, f1, 0.6, curve=10) * exp_decay(n, 0.14)
+    x += lp(noise(n), 300) * exp_decay(n, 0.02) * 0.4
+    return x * amp
+
+
+def air_whoosh(dur=0.45, f0=500, f1=3000, pan_from=-0.5, pan_to=0.5, amp=0.5):
+    n = int(dur * SR)
+    k = np.linspace(0, 1, n)
+    e = np.sin(np.pi * k) ** 2.2
+    x = sweep_filter(noise(n, 'pink'), f0, f1, 'band', q=0.9) * e * 1.6
+    pan = np.linspace(pan_from, pan_to, n)
+    return np.stack([x * np.sqrt((1 - pan) / 2), x * np.sqrt((1 + pan) / 2)], axis=1) * amp
+
+
+def bubble_pop(amp=0.35, f=900):
+    n = int(0.08 * SR)
+    return osc_sine_glide(f * 0.6, f * 1.6, 0.08, curve=-3) * exp_decay(n, 0.012) * amp
+
+
+def soft_ping(freq=880, dur=0.5, amp=0.18):
+    n = int(dur * SR)
+    t = t_axis(dur)
+    x = np.sin(2 * np.pi * freq * t) + 0.25 * np.sin(2 * np.pi * freq * 3.01 * t) * np.exp(-t / 0.05)
+    return x * np.minimum(1, t / 0.004) * np.exp(-t / 0.22) * amp
+
+
+def crackle(dur, density=0.002, amp=0.25):
+    n = int(dur * SR)
+    x = (rng.random(n) < density) * rng.standard_normal(n) * 3
+    x = bp(x, 1500, 9000) + bp(noise(n), 3000, 9000) * 0.05
+    e = np.minimum(1, t_axis(dur) / 0.05) * np.minimum(1, (dur - t_axis(dur)) / 0.1)
+    return x * e * amp
+
+
+def air_swell(dur, amp=0.15, lo=200, hi=2500):
+    """Breathy room-tone swell, for builds without a riser cliché."""
+    n = int(dur * SR)
+    k = np.linspace(0, 1, n)
+    return sweep_filter(noise(n, 'pink'), lo, hi, 'band', q=0.6) * (k ** 2) * amp

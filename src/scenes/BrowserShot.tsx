@@ -20,9 +20,16 @@ const CAP_W = 1600;
 export const BrowserShot: React.FC<{
   name: string; dur: number; map: (f: number) => number; label?: string; bg?: string; frameW?: number;
   from?: 'left' | 'right' | 'bottom' | 'none'; tilt?: [number, number]; cursor?: boolean; zoom?: {x: number; y: number; at: number; to: number}; children?: React.ReactNode;
-}> = ({name, dur, map, label, bg = SR.ink, frameW = 1440, from = 'bottom', tilt = [8, -10], cursor = true, zoom, children}) => {
+  /** Optional hand-off to a second capture that continues the same page state (e.g. cta -> footer). */
+  next?: {name: string; at: number; map: (f: number) => number};
+}> = ({name, dur, map: map1, label, bg = SR.ink, frameW = 1440, from = 'bottom', tilt = [8, -10], cursor = true, zoom, children, next}) => {
   const f = useCurrentFrame();
-  const track = useCaptureTrack(name);
+  const track1 = useCaptureTrack(name);
+  const track2 = useCaptureTrack(next ? next.name : name);
+  const onNext = !!next && f >= next.at;
+  const shotName = onNext && next ? next.name : name;
+  const map = onNext && next ? next.map : map1;
+  const track = onNext ? track2 : track1;
   const enter = from === 'none' ? 1 : prog(f, 0, 12, E.out);
   const dx = from === 'left' ? -2200 : from === 'right' ? 2200 : 0;
   const dy = from === 'bottom' ? 1300 : 0;
@@ -56,7 +63,7 @@ export const BrowserShot: React.FC<{
       <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', perspective: 2400}}>
         <div style={{transform: `translate(${(1 - enter) * dx + zx}px, ${(1 - enter) * dy + zy}px) scale(${drift * zs}) rotateX(${rx * (1 - flatten)}deg) rotateY(${ry * (1 - flatten)}deg)`}}>
           <BrowserFrame width={frameW}>
-            <Footage name={name} map={map} />
+            <Footage name={shotName} map={map} />
             {cursor && pt && <Cursor x={pt.x * k} y={pt.y * k} press={pt.down ? 1 : 0} />}
           </BrowserFrame>
         </div>

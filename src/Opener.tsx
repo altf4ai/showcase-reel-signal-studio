@@ -4,7 +4,7 @@ import './fonts';
 import {CrtOff} from './components/CrtOff';
 import {Footage, keyMap} from './components/Footage';
 import {Static} from './components/Static';
-import {prog} from './lib/anim';
+import {E, prog} from './lib/anim';
 import {HeroShowcase} from './scenes/HeroShowcase';
 import {LogoSlam} from './scenes/LogoSlam';
 import {RarOpen} from './scenes/RarOpen';
@@ -23,6 +23,25 @@ export const T = {
 // red light + "no signal" @270, amber @300, green @360, CRT reveal @450, hero settles into the slam @480.
 const preMap = keyMap([[0, 4], [8, 12], [38, 54], [98, 112], [188, 178], [218, 200]]);
 
+/** Keep the site's traffic light big: push in on it, then pull out for the site's own CRT reveal. */
+const PreloaderZoom: React.FC = () => {
+  const f = useCurrentFrame();
+  const inP = prog(f, 0, 14, E.out);
+  const outP = prog(f, 160, 176, E.inOut); // local 160 ~ global 422, just before the reveal
+  // the site shrinks the light after green (local ~98); push in harder to keep it the same size on screen
+  const z = 1 + (0.85 + prog(f, 14, 95) * 0.15 + prog(f, 88, 106, E.inOut) * 1.1) * inP * (1 - outP);
+  // light centre in the 1600x900 capture is ~(797, 330) -> in 1920x1080 space
+  const ox = (797 / 1600) * 1920;
+  const oy = (330 / 900) * 1080;
+  return (
+    <AbsoluteFill style={{overflow: 'hidden', background: '#0d0d0d'}}>
+      <AbsoluteFill style={{transform: `scale(${z})`, transformOrigin: `${ox}px ${oy}px`}}>
+        <Footage name="preloader" map={preMap} total={300} />
+      </AbsoluteFill>
+    </AbsoluteFill>
+  );
+};
+
 const StaticBurst: React.FC = () => {
   const f = useCurrentFrame();
   return <Static opacity={1 - prog(f, 10, 22)} />;
@@ -37,7 +56,7 @@ export const Opener: React.FC<{withAudio?: boolean}> = ({withAudio = true}) => (
       </CrtOff>
     </Sequence>
     <Sequence from={T.preIn} durationInFrames={T.slam - T.preIn}>
-      <Footage name="preloader" map={preMap} total={300} />
+      <PreloaderZoom />
     </Sequence>
     <Sequence from={T.staticIn} durationInFrames={24}>
       <StaticBurst />

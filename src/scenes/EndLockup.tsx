@@ -49,7 +49,7 @@ export const EndLockup: React.FC = () => {
         <div style={{marginTop: 34, display: 'flex', gap: 18, opacity: url, transform: `translateY(${(1 - url) * 16}px)`}}>
           <div style={{fontFamily: satoshi, fontWeight: 700, fontSize: 26, color: SR.ink, background: SR.lime, borderRadius: 99, padding: '14px 30px', display: 'flex', alignItems: 'center', gap: 12}}>
             <span style={{width: 11, height: 11, borderRadius: 99, background: SR.red, boxShadow: `0 0 10px ${SR.red}`}} />
-            now live — signalroom.framer.website
+            now live — signalroom.studio
           </div>
           <div style={{fontFamily: satoshi, fontWeight: 600, fontSize: 26, color: RAR.ice, border: '1.5px solid rgba(238,244,255,0.3)', borderRadius: 99, padding: '14px 30px'}}>
             riseabovereality.com

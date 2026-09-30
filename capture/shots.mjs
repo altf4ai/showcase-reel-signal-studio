@@ -79,6 +79,7 @@ export const shots = {
     {record: true, wait: 10},
     {mouse: [719, 15017 - 14220], frames: 50}, {wait: 40},
     {scroll: 15350, frames: 60 * 4, ease: 'inOut'},
+    {wait: 440},                              // footer sticker logo pops in ~6.5s after arrival
     {mouse: [1351, 864], frames: 50}, {wait: 70},
   ]},
 
@@ -125,5 +126,17 @@ export const shots = {
   rar_dive: {url: 'https://www.riseabovereality.com', width: 1920, height: 1080, dsf: 1, stepFps: 30, actions: [
     {wait: 6}, {js: HIDE_UI}, {wait: 150}, {record: true, wait: 5},
     {scroll: 2600, frames: 30 * 4, ease: 'inOut'}, {wait: 15},
+  ]},
+
+  footer_test: {url: SR, width: 1600, height: 900, dsf: 1, actions: [
+    {wait: 60 * 6}, {jump: 15350}, {record: true, wait: 60 * 8},
+  ]},
+
+  // Footer only: continues from the end of the cta scroll (same scroll position + cursor), holds for the
+  // sticker logo to pop in, then moves to the "Built by RiseAboveReality" credit.
+  footer: {url: SR, ...V, actions: [
+    {wait: 60 * 6}, {jump: 15350}, {mouse: [719, 797], frames: 1},
+    {record: true, wait: 500},
+    {mouse: [1351, 864], frames: 50}, {wait: 90},
   ]},
 };
