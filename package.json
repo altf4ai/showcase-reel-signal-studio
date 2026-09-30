@@ -22,9 +22,21 @@
   "dependencies": {
     "@remotion/bundler": "^4.0.531",
     "@remotion/cli": "^4.0.531",
+    "@remotion/google-fonts": "^4.0.531",
+    "@remotion/media-utils": "^4.0.531",
+    "@remotion/motion-blur": "^4.0.531",
+    "@remotion/noise": "^4.0.531",
+    "@remotion/paths": "^4.0.531",
     "@remotion/renderer": "^4.0.531",
+    "@remotion/shapes": "^4.0.531",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "remotion": "^4.0.531"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "playwright": "^1.56.1",
+    "typescript": "^5.9.3"
   }
 }

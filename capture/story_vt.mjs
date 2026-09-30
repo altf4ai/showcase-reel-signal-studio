@@ -1,0 +1,26 @@
+import {launch} from './cdp.mjs';
+import fs from 'fs';
+const src = fs.readFileSync('capture/shoot.mjs', 'utf8');
+const DRIVE = src.match(/const DRIVE = `([^`]+)`/)[1];
+const b = await launch({width: 1600, height: 900, dsf: 1});
+await b.send('Page.enable'); await b.send('Runtime.enable');
+const dt = 1000 / 60; let budgetResolve; let ticks = 0;
+b.on('Emulation.virtualTimeBudgetExpired', () => budgetResolve && budgetResolve());
+await b.send('Emulation.setVirtualTimePolicy', {policy: 'pause', initialVirtualTime: Date.now() / 1000});
+const ev = async e => (await b.send('Runtime.evaluate', {expression: e, returnByValue: true})).result.value;
+const frame = async () => { const p = new Promise(r => (budgetResolve = r)); await b.send('Emulation.setVirtualTimePolicy', {policy: 'pauseIfNetworkFetchesPending', budget: dt, maxVirtualTimeTaskStarvationCount: 100}); await p; await ev(DRIVE); ticks += dt; await b.send('HeadlessExperimental.beginFrame', {frameTimeTicks: ticks, interval: dt}); };
+b.send('Page.navigate', {url: 'https://signalroom.framer.website/'});
+for (let i = 0; i < 400; i++) await frame();
+await ev('window.scrollTo(0, 2300)'); for (let i = 0; i < 30; i++) await frame();
+const report = async tag => console.log(tag, await ev(`(() => { const h = [...document.querySelectorAll('h2')].find(h => /signal|noise|broadcast/i.test(h.innerText) && !/why/.test(h.innerText)); const an = document.getAnimations(); return JSON.stringify({t: h && h.innerText.replace(/\\s+/g,''), n: an.length, states: an.slice(0,40).map(a => a.playState[0] + (a.__done?'D':'') + (a.__drv?'':'x')).join(''), anims: h ? h.getAnimations({subtree: true}).map(a => a.playState + ':' + Math.round(a.currentTime||0) + '/' + (a.effect && a.effect.getComputedTiming().endTime)).slice(0,6) : []}); })()`));
+await report('at2300');
+await ev(`window.__mc = 0; window.__to = 0; { const ch = new MessageChannel(); ch.port1.onmessage = () => { window.__mc++; }; ch.port2.postMessage(1); setTimeout(() => window.__to++, 0); }`);
+for (let i = 0; i < 5; i++) await frame();
+console.log('messagechannel fired', await ev('window.__mc'), 'timeout fired', await ev('window.__to'));
+for (let k = 0; k < 40; k++) { await ev(`window.scrollTo(0, ${2300 + k * 20})`); await frame(); }
+await report('at3100 +0');
+for (let i = 0; i < 60; i++) await frame();
+await report('at3100 +60');
+for (let i = 0; i < 180; i++) await frame();
+await report('at3100 +240');
+b.close();

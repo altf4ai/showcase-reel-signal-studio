@@ -1,0 +1,319 @@
+{
+  "h": 16070,
+  "title": "Signalroom Studio",
+  "fonts": [
+    "sans-serif | 400",
+    "\"Inter Tight\", \"Inter Tight Placeholder\", Inter, system-ui, sans-serif | 800",
+    "\"Inter Tight\", Inter, system-ui, sans-serif | 900",
+    "\"Inter Tight\", \"Inter Tight Placeholder\", Inter, system-ui, sans-serif | 900",
+    "\"Inter Tight\", \"Inter Tight Placeholder\", Inter, system-ui, sans-serif | 600",
+    "\"Inter Tight\", \"Inter Tight Placeholder\", sans-serif | 800",
+    "\"Inter Display\", \"Inter Display Placeholder\", sans-serif | 500",
+    "\"Inter Tight\", \"Inter Tight Placeholder\", sans-serif | 700",
+    "\"Inter Tight\", \"Inter Tight Placeholder\", Inter, system-ui, sans-serif | 700",
+    "\"Inter Tight\", \"Inter Tight Placeholder\", Inter, system-ui, sans-serif | 500",
+    "\"Inter Tight\", \"Inter Tight Placeholder\", sans-serif | 900",
+    "Shrikhand, \"Inter Tight\", serif | 400"
+  ],
+  "colors": [
+    [
+      "rgb(18, 16, 16)",
+      262
+    ],
+    [
+      "rgb(249, 236, 212)",
+      194
+    ],
+    [
+      "rgba(249, 236, 212, 0.5)",
+      18
+    ],
+    [
+      "rgb(0, 0, 0)",
+      17
+    ],
+    [
+      "rgba(18, 16, 16, 0.7)",
+      10
+    ],
+    [
+      "rgb(95, 88, 82)",
+      8
+    ],
+    [
+      "rgba(249, 236, 212, 0.7)",
+      8
+    ],
+    [
+      "rgba(0, 0, 0, 0)",
+      8
+    ],
+    [
+      "rgba(18, 16, 16, 0.88)",
+      7
+    ],
+    [
+      "rgb(228, 254, 42)",
+      7
+    ],
+    [
+      "rgb(253, 183, 20)",
+      5
+    ],
+    [
+      "rgb(238, 45, 54)",
+      4
+    ],
+    [
+      "rgba(18, 16, 16, 0.82)",
+      4
+    ],
+    [
+      "rgba(249, 236, 212, 0.55)",
+      2
+    ],
+    [
+      "rgba(18, 16, 16, 0.75)",
+      2
+    ]
+  ],
+  "bgs": [
+    [
+      "rgb(228, 254, 42)",
+      158
+    ],
+    [
+      "rgb(238, 45, 54)",
+      157
+    ],
+    [
+      "rgb(253, 183, 20)",
+      143
+    ],
+    [
+      "rgb(18, 16, 16)",
+      68
+    ],
+    [
+      "rgba(255, 255, 255, 0.08)",
+      62
+    ],
+    [
+      "rgba(18, 16, 16, 0.55)",
+      36
+    ],
+    [
+      "rgba(249, 236, 212, 0.3)",
+      27
+    ],
+    [
+      "rgba(18, 16, 16, 0)",
+      24
+    ],
+    [
+      "rgb(249, 236, 212)",
+      18
+    ],
+    [
+      "rgba(0, 0, 0, 0.55)",
+      18
+    ],
+    [
+      "rgba(18, 16, 16, 0.5)",
+      14
+    ],
+    [
+      "rgba(18, 16, 16, 0.18)",
+      6
+    ],
+    [
+      "rgb(244, 167, 192)",
+      5
+    ],
+    [
+      "rgba(18, 16, 16, 0.72)",
+      4
+    ],
+    [
+      "rgba(249, 236, 212, 0)",
+      4
+    ]
+  ],
+  "heads": [
+    "H1: your brand has a signal. we find it.",
+    "P: Strategy, identity and content for brands that would rather lead with signal than noise.",
+    "H3: In a world full of noise, we help brands find their signal. Through strategy, storytelling and design, we build brands that connect and resonate.",
+    "P: About Us",
+    "P: About Us",
+    "H2: thefeedisfullofnoise.",
+    "P: Everyone's posting. Hardly anyone's saying anything. So first, we tune in: to your brand, your audience and everything drowning them out.",
+    "H2: selected work",
+    "P: See all work",
+    "P: See all work",
+    "H2: what we do",
+    "H3: brand strategy",
+    "P: Clarity before creativity. We work out what your brand stands for, who it's for, and what it should say.",
+    "H3: brand identity",
+    "P: A visual system with a point of view, built to stay recognisable everywhere your brand shows up.",
+    "H3: creative direction",
+    "P: Big ideas, properly made. We concept, script and shoot work that looks like your brand and nobody else's.",
+    "H3: content",
+    "P: Words, pictures and video that earn their place, from a single caption to a full website.",
+    "H3: illustration",
+    "P: Drawn by hand, made for your brand. Artwork and characters that give you a look no stock library can.",
+    "H3: social media",
+    "P: We build and run your social presence so your brand shows up with one clear voice, every single day.",
+    "H2: what we bring",
+    "H2: why signalroom?",
+    "H3: founder led",
+    "P: You work directly with the two people who built the studio. No hand-offs, no juniors in the dark.",
+    "H3: one clear signal",
+    "P: Brand, design, content and copy made together, so everything pulls in the same direction.",
+    "H3: less noise",
+    "P: We would rather say less and mean it than add more just to fill space.",
+    "H3: made in mumbai",
+    "P: Built in the loudest city we know, for brands that want to cut through it.",
+    "H2: don't take our word for it",
+    "H2: let's build a brand people remember.",
+    "P: From strategy to storytelling, Signalroom shapes brands that stand out and stay felt."
+  ],
+  "sections": [
+    {
+      "name": "Hero + About (Sticky)",
+      "top": 0,
+      "h": 2252
+    },
+    {
+      "name": "Hero",
+      "top": 0,
+      "h": 900
+    },
+    {
+      "name": null,
+      "top": 0,
+      "h": 900
+    },
+    {
+      "name": "Cloud + About",
+      "top": 900,
+      "h": 1352
+    },
+    {
+      "name": "About",
+      "top": 1130,
+      "h": 1122
+    },
+    {
+      "name": "Contain",
+      "top": 1202,
+      "h": 946
+    },
+    {
+      "name": "Content",
+      "top": 1202,
+      "h": 400
+    },
+    {
+      "name": "Heading",
+      "top": 1202,
+      "h": 328
+    },
+    {
+      "name": "Works",
+      "top": 4952,
+      "h": 2129
+    },
+    {
+      "name": "Contain",
+      "top": 5092,
+      "h": 1849
+    },
+    {
+      "name": "Services",
+      "top": 7081,
+      "h": 3342
+    },
+    {
+      "name": "Contain",
+      "top": 7121,
+      "h": 3162
+    },
+    {
+      "name": "Our Superpower",
+      "top": 10422,
+      "h": 1080
+    },
+    {
+      "name": "Contain",
+      "top": 10462,
+      "h": 900
+    },
+    {
+      "name": "Trusted By + Why Us",
+      "top": 11502,
+      "h": 1444
+    },
+    {
+      "name": "Why Us + Cloud Background",
+      "top": 11502,
+      "h": 1444
+    },
+    {
+      "name": "Why us",
+      "top": 11732,
+      "h": 1214
+    },
+    {
+      "name": "Contain",
+      "top": 11832,
+      "h": 1014
+    },
+    {
+      "name": "Why Us",
+      "top": 11832,
+      "h": 1014
+    },
+    {
+      "name": "Testimonial",
+      "top": 12946,
+      "h": 1313
+    },
+    {
+      "name": "Contain",
+      "top": 13066,
+      "h": 1089
+    }
+  ],
+  "imgs": [
+    "https://framerusercontent.com/images/I000aVQ6QG0VCvh03qTsXLtLMc.png?scale-down-to=512",
+    "https://framerusercontent.com/images/t2DMaX3r1lSIVdfFDkBUJIOQE.png?scale-down-to=512",
+    "https://framerusercontent.com/images/fUyfZYsVXMyIWE24NGXYRNb7ZU.png?scale-down-to=512",
+    "https://framerusercontent.com/images/lTgB548aIqFdy3PBGCIhRbfIeI.png?scale-down-to=1024",
+    "https://framerusercontent.com/images/XFEoiprmzNGfUUtu9rTiDvBlQw.png?scale-down-to=1024",
+    "https://framerusercontent.com/images/QSDqNQSgwKioj0llA0REED94zVM.png?scale-down-to=1024",
+    "https://framerusercontent.com/images/JK1Nwo3JR0NcozIgx3ymlgNhQ.png?scale-down-to=1024",
+    "https://framerusercontent.com/images/yQQwGD5K8MsNuQQWLi9gBuc6cE.png?scale-down-to=512",
+    "https://framerusercontent.com/images/I000aVQ6QG0VCvh03qTsXLtLMc.png?scale-down-to=512",
+    "https://framerusercontent.com/images/ucawJ16AMVGnX7Ixs5c3LVOKjOk.png?scale-down-to=512",
+    "https://framerusercontent.com/images/gWii9fNEPC5IC6vZlTnqwFyYVR0.png?scale-down-to=512",
+    "https://framerusercontent.com/images/mCKHQPFdn4fbNdtWuBpqM5HOGBs.png?scale-down-to=512",
+    "https://framerusercontent.com/images/sJ0ZknxiRtUIvxIhHP5Tc98SvSo.png?scale-down-to=512",
+    "https://framerusercontent.com/images/fUyfZYsVXMyIWE24NGXYRNb7ZU.png?scale-down-to=512",
+    "https://framerusercontent.com/images/t2DMaX3r1lSIVdfFDkBUJIOQE.png?scale-down-to=512",
+    "https://framerusercontent.com/images/TrhqMY61XnUFoQWfdcuYIZ9ic.png?scale-down-to=512",
+    "https://framerusercontent.com/images/KxDUUE6d7mAPc8VXEms9nScllb8.png?scale-down-to=512",
+    "https://framerusercontent.com/images/82cq5MuO4G0ysjLFmDRXZqhxNy0.png?scale-down-to=512",
+    "https://framerusercontent.com/images/eqPASVQl3NGgj57SfdN1SzupBAE.png?scale-down-to=512",
+    "https://framerusercontent.com/images/TrhqMY61XnUFoQWfdcuYIZ9ic.png?scale-down-to=512",
+    "https://framerusercontent.com/images/KxDUUE6d7mAPc8VXEms9nScllb8.png?scale-down-to=512",
+    "https://framerusercontent.com/images/bwqhiJK7jXxkXcOIXxiN2hszkMs.png?scale-down-to=512",
+    "https://framerusercontent.com/images/ewT89syuHPBueZphvp1kCNkC8I.png?scale-down-to=1024",
+    "https://framerusercontent.com/images/gWii9fNEPC5IC6vZlTnqwFyYVR0.png?scale-down-to=512",
+    "https://framerusercontent.com/images/sJ0ZknxiRtUIvxIhHP5Tc98SvSo.png?scale-down-to=512",
+    "https://framerusercontent.com/images/82cq5MuO4G0ysjLFmDRXZqhxNy0.png?scale-down-to=512",
+    "https://framerusercontent.com/images/ewT89syuHPBueZphvp1kCNkC8I.png?scale-down-to=1024"
+  ],
+  "svgLogos": [
+    199
+  ]
+}

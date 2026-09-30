@@ -1,0 +1,128 @@
+{
+  "h": 10530,
+  "title": "Rise Above Reality — Creative Tech Agency",
+  "fonts": [
+    "\"Clash Display\", sans-serif | 500",
+    "\"Clash Display\", sans-serif | 300",
+    "Satoshi, system-ui, -apple-system, sans-serif | 600",
+    "Satoshi, system-ui, -apple-system, sans-serif | 400",
+    "\"Clash Display\", Satoshi, system-ui, sans-serif | 560",
+    "\"Clash Display\", Satoshi, system-ui, sans-serif | 600",
+    "\"Clash Display\", Satoshi, system-ui, sans-serif | 500",
+    "Satoshi, system-ui, -apple-system, sans-serif | 500",
+    "Satoshi, system-ui, -apple-system, sans-serif | 700"
+  ],
+  "colors": [
+    [
+      "rgb(238, 244, 255)",
+      33
+    ],
+    [
+      "rgb(90, 200, 255)",
+      16
+    ],
+    [
+      "rgba(238, 244, 255, 0.55)",
+      10
+    ],
+    [
+      "rgba(238, 244, 255, 0.28)",
+      10
+    ],
+    [
+      "rgb(191, 234, 255)",
+      2
+    ],
+    [
+      "rgb(255, 255, 255)",
+      1
+    ]
+  ],
+  "bgs": [
+    [
+      "rgb(90, 200, 255)",
+      3
+    ],
+    [
+      "rgba(238, 244, 255, 0.06)",
+      2
+    ],
+    [
+      "rgb(238, 244, 255)",
+      2
+    ],
+    [
+      "rgba(30, 98, 255, 0.12)",
+      2
+    ],
+    [
+      "rgb(5, 5, 7)",
+      1
+    ],
+    [
+      "color(srgb 0.933333 0.956863 1 / 0.16)",
+      1
+    ],
+    [
+      "rgba(30, 98, 255, 0.25)",
+      1
+    ],
+    [
+      "rgba(238, 244, 255, 0.55)",
+      1
+    ],
+    [
+      "rgba(3, 4, 8, 0.55)",
+      1
+    ],
+    [
+      "rgba(8, 10, 20, 0.98)",
+      1
+    ],
+    [
+      "rgba(8, 12, 24, 0.55)",
+      1
+    ],
+    [
+      "rgba(6, 12, 28, 0.5)",
+      1
+    ],
+    [
+      "rgba(30, 98, 255, 0.1)",
+      1
+    ],
+    [
+      "rgba(7, 11, 22, 0.86)",
+      1
+    ],
+    [
+      "rgba(238, 244, 255, 0.05)",
+      1
+    ]
+  ],
+  "heads": [
+    "P: FULL-STACK CREATIVE TECH AGENCY",
+    "H2: RISE ABOVE REALITY",
+    "P: We fuse strategy, code and intelligence to build digital products that rise above the ordinary.",
+    "P: Creative Tech Agency — Mumbai"
+  ],
+  "sections": [
+    {
+      "name": null,
+      "top": 0,
+      "h": 900
+    },
+    {
+      "name": null,
+      "top": 6030,
+      "h": 2700
+    },
+    {
+      "name": null,
+      "top": 8730,
+      "h": 1800
+    }
+  ],
+  "imgs": [],
+  "svgLogos": []
+}
