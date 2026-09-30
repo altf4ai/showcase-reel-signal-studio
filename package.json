@@ -1,0 +1,30 @@
+{
+  "name": "showcase-reel-signal-studio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "studio": "remotion studio src/index.ts",
+    "render": "remotion render src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/altf4ai/showcase-reel-signal-studio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/altf4ai/showcase-reel-signal-studio/issues"
+  },
+  "homepage": "https://github.com/altf4ai/showcase-reel-signal-studio#readme",
+  "dependencies": {
+    "@remotion/bundler": "^4.0.531",
+    "@remotion/cli": "^4.0.531",
+    "@remotion/renderer": "^4.0.531",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.531"
+  }
+}
