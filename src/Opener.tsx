@@ -28,9 +28,9 @@ const StaticBurst: React.FC = () => {
   return <Static opacity={1 - prog(f, 10, 22)} />;
 };
 
-export const Opener: React.FC = () => (
+export const Opener: React.FC<{withAudio?: boolean}> = ({withAudio = true}) => (
   <AbsoluteFill style={{background: '#000'}}>
-    <Audio src={staticFile('audio/opener.wav')} />
+    {withAudio && <Audio src={staticFile('audio/opener.wav')} />}
     <Sequence durationInFrames={T.rarEnd}>
       <CrtOff at={238}>
         <RarOpen />

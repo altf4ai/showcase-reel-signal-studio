@@ -1,6 +1,10 @@
 // Shot scripts. Viewport 1600x900 CSS @2x => 3200x1800 frames (16:9, supersampled for 1080p + push-ins).
 const SR = 'https://signalroom.framer.website/';
 const V = {width: 1600, height: 900, dsf: 2};
+// Hide every DOM element except the WebGL canvas (and its ancestors), keep layout intact.
+const HIDE_UI = `(() => { const c = document.querySelector('canvas'); const keep = new Set(); for (let e = c; e; e = e.parentElement) keep.add(e);
+  const st = document.createElement('style'); st.textContent = '*{cursor:none!important}'; document.head.appendChild(st);
+  for (const e of document.body.querySelectorAll('*')) { if (!keep.has(e) && !e.contains(c)) e.style.setProperty('visibility', 'hidden', 'important'); } })()`;
 
 export const shots = {
   // Site preloader: TV static, traffic light, "tuning in" counter, through to the hero reveal.
@@ -50,7 +54,7 @@ export const shots = {
 
   // Retro TV: click CH+ through the channels.
   bring: {url: SR, ...V, actions: [
-    {wait: 60 * 6}, {jump: 10440}, {wait: 90},
+    {wait: 60 * 6}, {jump: 10440}, {wait: 420},
     {mouse: [1400, 760], frames: 1},
     {record: true, wait: 20},
     {mouse: [1104, 518], frames: 40},
@@ -107,5 +111,19 @@ export const shots = {
   ]},
   m_hero_still: {url: SR, width: 393, height: 852, dsf: 3, actions: [
     {wait: 60 * 6}, {record: true, wait: 60 * 3},
+  ]},
+
+  // RiseAboveReality's own WebGL black hole (three.js), UI hidden so only the render remains.
+  rar_hole_test: {url: 'https://www.riseabovereality.com', width: 1920, height: 1080, dsf: 1, actions: [
+    {wait: 60 * 4}, {js: HIDE_UI}, {wait: 10}, {record: true, wait: 20},
+  ]},
+  // stepFps 30: the black hole moves slowly; half the (software) WebGL renders. Frame indices in the
+  // Remotion timeline stay in 60fps units since the mp4 carries real timestamps.
+  rar_hole: {url: 'https://www.riseabovereality.com', width: 1920, height: 1080, dsf: 1, stepFps: 30, actions: [
+    {wait: 6}, {js: HIDE_UI}, {wait: 104}, {record: true, wait: 30 * 7},
+  ]},
+  rar_dive: {url: 'https://www.riseabovereality.com', width: 1920, height: 1080, dsf: 1, stepFps: 30, actions: [
+    {wait: 6}, {js: HIDE_UI}, {wait: 150}, {record: true, wait: 5},
+    {scroll: 2600, frames: 30 * 4, ease: 'inOut'}, {wait: 15},
   ]},
 };

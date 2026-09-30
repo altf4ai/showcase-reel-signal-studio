@@ -1,6 +1,6 @@
 import React from 'react';
 import {AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame} from 'remotion';
-import {EventHorizon} from '../components/EventHorizon';
+import {Footage, keyMap} from '../components/Footage';
 import {Grain} from '../components/Grain';
 import {clash, satoshi} from '../fonts';
 import {E, clamp, prog, rand} from '../lib/anim';
@@ -44,14 +44,21 @@ const Decode: React.FC<{text: string; start: number; dur?: number; style?: React
   return <span style={style}>{out}</span>;
 };
 
+// Centre of the black hole's shadow in the 1920x1080 capture.
+const HOLE = {x: 960, y: 420};
+
 export const RarOpen: React.FC = () => {
   const f = useCurrentFrame();
   const HIT = BEAT * 4; // 120: title hit
   const INTRO = BEAT * 6; // 180: "introducing"
   const END = BEAT * 8; // 240
 
-  const open = prog(f, 14, HIT - 6, E.out);
-  const push = interpolate(f, [0, END], [0.92, 1.12], clamp);
+  // rar_hole capture: the hole materialises ~src 20 and grows; hold it steady and full by the hit.
+  const holeMap = keyMap([[0, 10], [HIT, 150], [END, 250]]);
+  // rar_dive capture: scroll-driven push through the event horizon into the light streaks.
+  const diveMap = keyMap([[INTRO + 6, 30], [END, 250]]);
+  const dive = prog(f, INTRO + 6, INTRO + 20, E.inOut);
+  const push = interpolate(f, [0, END], [1.0, 1.08], clamp);
   const energy = Math.max(0, 1 - Math.abs(f - HIT) / 18);
   // interference in the last beat
   const intf = prog(f, END - 26, END, E.in);
@@ -64,23 +71,14 @@ export const RarOpen: React.FC = () => {
     <AbsoluteFill style={{background: RAR.bg}}>
       {/* deep space vignette */}
       <AbsoluteFill style={{background: `radial-gradient(60% 55% at 50% 42%, rgba(30,98,255,${0.1 + energy * 0.12}) 0%, rgba(5,5,7,0) 70%)`}} />
-      {/* the ring */}
-      <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', transform: `translateY(-70px) scale(${push})`}}>
-        <EventHorizon size={1500} open={open} energy={energy} frontDim={prog(f, HIT - 4, HIT + 6)} />
+      {/* RiseAboveReality's own WebGL black hole, captured from riseabovereality.com */}
+      <AbsoluteFill style={{transform: `scale(${push})`, filter: `brightness(${1 + energy * 0.9}) saturate(${1 + energy * 0.3})`, opacity: 1 - dive}}>
+        <Footage name="rar_hole" map={holeMap} />
       </AbsoluteFill>
-      {/* streak burst on the hit, echoing their site's light-speed section */}
-      {f >= HIT - 2 && f < HIT + 22 && (
-        <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', transform: 'translateY(-70px)'}}>
-          <svg width="1920" height="1080" viewBox="-960 -540 1920 1080">
-            {Array.from({length: 46}).map((_, i) => {
-              const a = rand(i) * Math.PI * 2;
-              const t = prog(f, HIT - 2, HIT + 22, E.out);
-              const r0 = 280 + rand(i + 9) * 200 + t * 900;
-              const len = (1 - t) * (140 + rand(i + 3) * 380);
-              return <line key={i} x1={Math.cos(a) * r0} y1={Math.sin(a) * r0 * 0.6} x2={Math.cos(a) * (r0 + len)} y2={Math.sin(a) * (r0 + len) * 0.6}
-                stroke={i % 3 ? RAR.blue : RAR.ice} strokeOpacity={(1 - t) * 0.9} strokeWidth={1.2} />;
-            })}
-          </svg>
+      {/* ...and its light-speed section, for the dive out */}
+      {dive > 0 && (
+        <AbsoluteFill style={{opacity: dive}}>
+          <Footage name="rar_dive" map={diveMap} />
         </AbsoluteFill>
       )}
       {/* corner system labels */}
@@ -97,7 +95,7 @@ export const RarOpen: React.FC = () => {
         <Decode text="TRANSMISSION 01" start={46} />
       </div>
       {/* mark */}
-      <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', transform: 'translateY(-70px)'}}>
+      <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', transform: `translate(${HOLE.x - 960}px, ${HOLE.y - 540}px)`}}>
         <Img src={staticFile('brand/rar/rar-mark.png')} style={{width: 150, opacity: prog(f, HIT, HIT + 10) * (1 - prog(f, INTRO - 4, INTRO + 6)),
           transform: `scale(${interpolate(prog(f, HIT, HIT + 30, E.out), [0, 1], [1.25, 1])})`, filter: `drop-shadow(0 0 ${18 + energy * 30}px rgba(90,200,255,0.55))`}} />
       </AbsoluteFill>

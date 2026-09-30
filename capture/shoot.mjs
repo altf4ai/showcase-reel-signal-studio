@@ -14,7 +14,7 @@ const ease = {
 async function shoot(name) {
   const shot = shots[name];
   if (!shot) throw new Error('unknown shot ' + name);
-  const {url, width = 1440, height = 900, dsf = 2, quality = 94} = shot;
+  const {url, width = 1440, height = 900, dsf = 2, quality = 94, stepFps = 60} = shot;
   const dir = `capture/frames/${name}`;
   fs.rmSync(dir, {recursive: true, force: true}); fs.mkdirSync(dir, {recursive: true});
   const b = await launch({width, height, dsf});
@@ -23,7 +23,7 @@ async function shoot(name) {
 
   // One clock for everything: Chrome virtual time (timers, Date, performance.now, network-aware),
   // begin-frame control for rendering, and WAAPI/CSS animations stepped manually from virtual time.
-  const dt = 1000 / 60; let ticks = 0; let recording = false; let idx = 0;
+  const dt = 1000 / stepFps; let ticks = 0; let recording = false; let idx = 0;
   let budgetResolve; b.on('Emulation.virtualTimeBudgetExpired', () => budgetResolve && budgetResolve());
   await b.send('Emulation.setVirtualTimePolicy', {policy: 'pause', initialVirtualTime: Date.now() / 1000});
   const DRIVE = `(() => { const now = performance.now(); for (const a of document.getAnimations()) { if (a.__done || (a.timeline && a.timeline !== document.timeline)) continue; if (a.playState === 'paused' && !a.__drv) continue; if (!a.__drv) { a.__drv = true; a.__t0 = now - (a.currentTime || 0); a.pause(); } const t = (now - a.__t0) * (a.playbackRate || 1); const end = a.effect ? a.effect.getComputedTiming().endTime : Infinity; if (Number.isFinite(end) && t >= end) { a.__done = true; a.finish(); } else a.currentTime = t; } })()`;
@@ -69,9 +69,9 @@ async function shoot(name) {
     if (a.shot) { const r = await b.send('Page.captureScreenshot', {format: 'png'}); fs.writeFileSync(`capture/frames/${name}_${a.shot}.png`, Buffer.from(r.data, 'base64')); }
   }
   b.close();
-  fs.writeFileSync(`public/captures/${name}.json`, JSON.stringify({width, height, dsf, frames: idx, track}));
+  fs.writeFileSync(`public/captures/${name}.json`, JSON.stringify({width, height, dsf, stepFps, frames: idx, track}));
   // Near-lossless intermediate for Remotion: H.264 High, CRF 12, 60fps, full 2x resolution.
-  execFileSync('ffmpeg', ['-v', 'error', '-y', '-framerate', '60', '-i', `${dir}/f%05d.jpg`, '-c:v', 'libx264', '-preset', 'slow', '-crf', '12', '-g', '10', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', `public/captures/${name}.mp4`]);
+  execFileSync('ffmpeg', ['-v', 'error', '-y', '-framerate', String(stepFps), '-i', `${dir}/f%05d.jpg`, '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2', '-c:v', 'libx264', '-preset', 'slow', '-crf', '12', '-g', '10', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', `public/captures/${name}.mp4`]);
   console.log(`${name}: ${idx} frames (${(idx / 60).toFixed(2)}s) @ ${width * dsf}x${height * dsf}`);
 }
 

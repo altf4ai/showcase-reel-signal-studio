@@ -1,6 +1,6 @@
 import React from 'react';
 import {AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
-import {EventHorizon} from '../components/EventHorizon';
+import {Footage} from '../components/Footage';
 import {Grain} from '../components/Grain';
 import {clash, satoshi} from '../fonts';
 import {E, clamp, prog, sp} from '../lib/anim';
@@ -24,10 +24,9 @@ export const EndLockup: React.FC = () => {
 
   return (
     <AbsoluteFill style={{background: RAR.bg, overflow: 'hidden'}}>
-      <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', opacity: 0.55 * (1 - out)}}>
-        <div style={{transform: `scale(${1.5 * push})`}}>
-          <EventHorizon size={1500} open={ring} energy={0.2} frontDim={0.6} />
-        </div>
+      {/* the real black hole from riseabovereality.com, behind the lockup */}
+      <AbsoluteFill style={{opacity: (0.35 + 0.35 * ring) * (1 - out), transform: `scale(${1.12 * push})`}}>
+        <Footage name="rar_hole" map={x => 250 + x * 0.5} />
       </AbsoluteFill>
       <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 50%, rgba(5,5,7,0.85) 0%, rgba(5,5,7,0.4) 35%, rgba(5,5,7,0) 60%)'}} />
       <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', transform: `translateY(-40px) scale(${push * 1.22})`, opacity: 1 - out}}>
