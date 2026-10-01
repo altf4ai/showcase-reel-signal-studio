@@ -15,6 +15,8 @@ export const LogoSlam: React.FC<{w?: number; h?: number}> = ({w = 1920, h = 1080
   const shake = f < 10 ? (rand(f) - 0.5) * 26 * (1 - f / 10) : 0;
   const chip = sp(f, fps, BEAT, {damping: 14, stiffness: 300});
   const url = 'signalroom.studio';
+  // after the URL has finished and been read, everything leaves together before the site appears
+  const exit = prog(f, BEAT * 4, BEAT * 4 + 14, E.in);
   const typed = Math.floor(interpolate(f, [BEAT * 2, BEAT * 2 + url.length * 2], [0, url.length], clamp));
   const k = w / 1920;
 
@@ -30,16 +32,16 @@ export const LogoSlam: React.FC<{w?: number; h?: number}> = ({w = 1920, h = 1080
       </AbsoluteFill>
       <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', transform: `translateY(${-40 * k}px)`}}>
         <Img src={staticFile('brand/signalroom/logo_black.png')}
-          style={{width: 420 * k, transform: `scale(${scale}) rotate(${rot}deg)`, filter: `drop-shadow(0 ${24 * k}px ${30 * k}px rgba(0,0,0,0.35))`}} />
+          style={{width: 420 * k, opacity: 1 - exit, transform: `scale(${scale * (1 - exit * 0.35)}) rotate(${rot - exit * 6}deg)`, filter: `drop-shadow(0 ${24 * k}px ${30 * k}px rgba(0,0,0,0.35))`}} />
       </AbsoluteFill>
       <div style={{position: 'absolute', left: 0, right: 0, bottom: 190 * k, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 16 * k,
-        transform: `translateY(${(1 - chip) * 40 * k}px)`, opacity: Math.min(1, chip * 2)}}>
+        transform: `translateY(${((1 - chip) * 40 + exit * 30) * k}px)`, opacity: Math.min(1, chip * 2) * (1 - exit)}}>
         <div style={{background: SR.ink, color: SR.lime, fontFamily: interTight, fontWeight: 800, fontSize: 30 * k, letterSpacing: '-0.01em', padding: `${12 * k}px ${26 * k}px`, borderRadius: 99, display: 'flex', alignItems: 'center', gap: 12 * k}}>
           <span style={{width: 12 * k, height: 12 * k, borderRadius: 99, background: SR.red, boxShadow: `0 0 ${12 * k}px ${SR.red}`}} />
           new website — on air
         </div>
       </div>
-      <div style={{position: 'absolute', left: 0, right: 0, bottom: 132 * k, textAlign: 'center', fontFamily: interTight, fontWeight: 700, fontSize: 26 * k, color: SR.ink, letterSpacing: '-0.01em', opacity: 0.85}}>
+      <div style={{position: 'absolute', left: 0, right: 0, bottom: 132 * k, textAlign: 'center', fontFamily: interTight, fontWeight: 700, fontSize: 26 * k, color: SR.ink, letterSpacing: '-0.01em', opacity: 0.85 * (1 - exit), transform: `translateY(${exit * 30 * k}px)`}}>
         {url.slice(0, typed)}
         <span style={{opacity: typed < url.length || Math.floor(f / 15) % 2 ? 1 : 0}}>▍</span>
       </div>

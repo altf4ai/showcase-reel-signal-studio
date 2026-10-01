@@ -55,7 +55,7 @@ export const HeroShowcase: React.FC<{slamOffset: number; heroSrcStart?: number}>
             <Footage name="hero" map={srcF} />
             {slamFade > 0 && (
               <AbsoluteFill style={{opacity: slamFade}}>
-                <div style={{position: 'relative', width: 1920, height: 1080, transform: `scale(${FRAME_W / 1920})`, transformOrigin: '0 0'}}>
+                <div style={{position: 'relative', width: 1920, height: 1080, flexShrink: 0, transform: `scale(${FRAME_W / 1920})`, transformOrigin: '0 0'}}>
                   <OffsetFrame offset={slamOffset}><LogoSlam /></OffsetFrame>
                 </div>
               </AbsoluteFill>

@@ -2,7 +2,7 @@ import React from 'react';
 import {AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame} from 'remotion';
 import {Footage, hasCapture, keyMap} from '../components/Footage';
 import {Grain} from '../components/Grain';
-import {clash, satoshi} from '../fonts';
+import {clash} from '../fonts';
 import {E, clamp, prog} from '../lib/anim';
 import {BEAT, RAR} from '../theme';
 
@@ -27,17 +27,6 @@ const MaskWord: React.FC<{text: string; start: number; exit?: number; size: numb
   );
 };
 
-/** Clean label reveal: slides up out of a mask and fades in. No glyph scrambling. */
-const Label: React.FC<{text: string; start: number; style?: React.CSSProperties}> = ({text, start, style}) => {
-  const f = useCurrentFrame();
-  const p = prog(f, start, start + 18, E.out);
-  return (
-    <span style={{display: 'inline-block', overflow: 'hidden', verticalAlign: 'top'}}>
-      <span style={{display: 'inline-block', transform: `translateY(${(1 - p) * 110}%)`, opacity: p, ...style}}>{text}</span>
-    </span>
-  );
-};
-
 // Centre of the black hole's shadow in the 1920x1080 capture.
 const HOLE = {x: 960, y: 420};
 
@@ -45,20 +34,18 @@ export const RarOpen: React.FC = () => {
   const f = useCurrentFrame();
   const HIT = BEAT * 4; // 120: title hit
   const INTRO = BEAT * 6; // 180: "introducing"
-  const END = 262; // cut straight to Signalroom's preloader on the whiteout
+  const END = BEAT * 8; // 240: whiteout cuts straight to the Signalroom logo slam
 
   // rar_hole capture: the hole materialises ~src 20 and grows; hold it steady and full by the hit.
   const holeMap = keyMap([[0, 10], [HIT, 150], [END, 250]]);
   // rar_dive capture: scroll-driven push through the event horizon into the light streaks.
-  const diveMap = keyMap([[INTRO + 6, 30], [INTRO + 40, 150], [END, 270]]);
+  const diveMap = keyMap([[INTRO + 6, 30], [INTRO + 28, 150], [END, 270]]);
   const dive = hasCapture('rar_dive') ? prog(f, INTRO + 6, INTRO + 20, E.inOut) : 0;
   const push = interpolate(f, [0, END], [1.0, 1.08], clamp);
   const energy = Math.max(0, 1 - Math.abs(f - HIT) / 18);
   // light-speed whiteout into the cut
   const white = prog(f, END - 16, END, E.in);
 
-  const labels: React.CSSProperties = {fontFamily: satoshi, fontWeight: 600, fontSize: 15, letterSpacing: '0.24em', color: RAR.iceDim, textTransform: 'uppercase'};
-  const labelIn = prog(f, 30, 60, E.out);
 
   const content = (
     <AbsoluteFill style={{background: RAR.bg}}>
@@ -74,19 +61,6 @@ export const RarOpen: React.FC = () => {
           <Footage name="rar_dive" map={diveMap} />
         </AbsoluteFill>
       )}
-      {/* corner system labels */}
-      <div style={{position: 'absolute', left: 64, top: 56, ...labels, opacity: labelIn}}>
-        <Label text="FULL-STACK CREATIVE TECH AGENCY" start={30} />
-      </div>
-      <div style={{position: 'absolute', right: 64, top: 56, ...labels, opacity: labelIn, textAlign: 'right'}}>
-        <Label text="MUMBAI — 19.07°N 72.87°E" start={36} />
-      </div>
-      <div style={{position: 'absolute', left: 64, bottom: 52, ...labels, opacity: labelIn}}>
-        <Label text="RAR / 2026" start={42} />
-      </div>
-      <div style={{position: 'absolute', right: 64, bottom: 52, ...labels, opacity: labelIn, textAlign: 'right'}}>
-        <Label text="TRANSMISSION 01" start={46} />
-      </div>
       {/* mark */}
       <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', transform: `translate(${HOLE.x - 960}px, ${HOLE.y - 540}px)`}}>
         <Img src={staticFile('brand/rar/rar-mark.png')} style={{width: 150, opacity: prog(f, HIT, HIT + 10) * (1 - prog(f, INTRO - 4, INTRO + 6)),

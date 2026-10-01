@@ -9,7 +9,7 @@ import soundfile as sf
 from synth import *  # noqa
 
 B = 30
-SECTIONS = [('opener', 840), ('about', 180), ('flurry', 60), ('story', 360), ('services', 360), ('proof', 120),
+SECTIONS = [('opener', 660), ('about', 180), ('flurry', 60), ('story', 360), ('services', 360), ('proof', 120),
             ('bring', 300), ('why', 300), ('responsive', 360), ('cta', 300), ('end', 300)]
 AT, t = {}, 0
 for k, d in SECTIONS:
@@ -36,41 +36,32 @@ def scroll(f0, f1, rate=16, amp=0.16):
     fx.place(wheel_ticks(fr(f1) - fr(f0), rate=rate, amp=amp, seed=f0), fr(f0), 1, pan=0.15)
 
 
-# ---------------------------------------------------------------- RAR cold open
+# ---------------------------------------------------------------- RAR cold open (0-240)
 room.place(air_swell(2.0, 0.10, 150, 1800), 0.0, 1)
 room.place(drone(4.2, (43.65, 87.3), amp=0.12, attack=1.5), 0.0, 1)
-for i, f0 in enumerate([30, 36, 42, 46]):
-    keys(f0, 4, 2.2, 0.20, pan=(-0.6 if i % 2 == 0 else 0.6), seed=i * 10)
-fx.place(soft_thump(0.75, 90, 42), fr(120), 1)
+fx.place(soft_thump(0.75, 90, 42), fr(120), 1)                 # title + mark
 fx.place(shimmer(2093, 2.2, 0.06), fr(120), 1, pan=-0.2)
 fx.place(shimmer(3136, 2.2, 0.04), fr(122), 1, pan=0.2)
 for j in range(8):
     fx.place(tick(5000 - j * 150, amp=0.05), fr(120 + j * 2.4), 1, pan=-0.6 + j * 0.15)
-keys(180, 11, 1.6, 0.24, seed=40)
-fx.place(air_whoosh(0.9, 300, 6000, -0.2, 0.2, 0.6), fr(186), 1)
-room.place(air_swell(0.45, 0.22, 600, 7000), fr(235), 1)      # light-speed whiteout
-fx.place(soft_thump(0.5, 120, 60), fr(262), 1)                 # cut to "no signal"
-fx.place(crackle(0.25, 0.01, 0.3), fr(262), 1)
+for j in range(11):                                             # INTRODUCING letters rise
+    fx.place(tick(3400 + (j % 3) * 300, amp=0.05), fr(180 + j * 1.4), 1, pan=-0.5 + j * 0.1)
+fx.place(air_whoosh(0.9, 300, 6000, -0.2, 0.2, 0.6), fr(186), 1)  # dive into RAR's light streaks
+room.place(air_swell(0.4, 0.22, 600, 7000), fr(216), 1)          # whiteout
 
-# ---------------------------------------------------------------- Tune in (preloader)
-fx.place(crackle(3.6, 0.0015, 0.16), fr(262), 1)
-fx.place(tuning_sweep(1.0, 700, 2200) * 0.35, fr(264), 1, pan=-0.2)
-fx.place(soft_ping(660, 0.6, 0.16), fr(270), 1)
-fx.place(soft_ping(880, 0.6, 0.16), fr(300), 1)
-fx.place(soft_ping(1320, 0.7, 0.15), fr(360), 1)
-fx.place(soft_ping(1760, 0.7, 0.08), fr(363), 1)
-room.place(air_swell(0.75, 0.24, 300, 6000), fr(432), 1)      # rush into the green light
-
-# ---------------------------------------------------------------- Logo slam + hero
-fx.place(soft_thump(0.8, 110, 50), fr(480), 1)
-fx.place(paper_pat(0.7), fr(480), 1)
-fx.place(bubble_pop(0.3, 1100), fr(510), 1)
-keys(540, 17, 2.0, 0.28, seed=80)                     # s-i-g-n-a-l-r-o-o-m-.-s-t-u-d-i-o
-fx.place(air_whoosh(0.7, 200, 2500, 0.5, -0.5, 0.55), fr(570), 1)
+# ---------------------------------------------------------------- Logo slam (240-390) + hero (390-660)
+SL = 240
+fx.place(soft_thump(0.8, 110, 50), fr(SL), 1)
+fx.place(paper_pat(0.7), fr(SL), 1)
+fx.place(bubble_pop(0.3, 1100), fr(SL + 30), 1)
+keys(SL + 60, 17, 2.0, 0.28, seed=80)                  # s-i-g-n-a-l-r-o-o-m-.-s-t-u-d-i-o
+fx.place(air_whoosh(0.3, 1200, 5000, 0, 0, 0.35), fr(SL + 118), 1)  # logo, pill and URL leave together
+HS = 390
+fx.place(air_whoosh(0.7, 200, 2500, 0.5, -0.5, 0.55), fr(HS), 1)
 for j in range(10):                                   # headline scramble flicker
-    fx.place(tick(2600 + (j % 4) * 700, amp=0.05), fr(612 + j * 1.3), 1, pan=-0.3 + j * 0.06)
-fx.place(tick(3400, amp=0.12), fr(635), 1)            # hover on "Book a call"
-scroll(730, 830, rate=14, amp=0.14)
+    fx.place(tick(2600 + (j % 4) * 700, amp=0.05), fr(HS + 42 + j * 1.3), 1, pan=-0.3 + j * 0.06)
+fx.place(tick(3400, amp=0.12), fr(HS + 65), 1)        # hover on "Book a call"
+scroll(HS + 160, HS + 260, rate=14, amp=0.14)
 
 # ---------------------------------------------------------------- About
 fx.place(air_whoosh(0.35, 600, 6000, 0.7, -0.2, 0.55), fr(AT['about']) - 0.1, 1)
@@ -163,6 +154,7 @@ peak = np.abs(mix).max()
 mix = mix / peak * 0.9  # Instagram lets the poster balance this against an added track
 here = os.path.dirname(os.path.abspath(__file__))
 sf.write(os.path.join(here, '..', 'public', 'audio', 'film.wav'), mix, SR, subtype='PCM_24')
+np.save(os.path.join(here, '..', 'public', 'audio', 'sfx_raw.npy'), mix)
 sf.write(os.path.join(here, '..', 'public', 'audio', 'stem_sfx.wav'), mix, SR, subtype='PCM_24')
 rms = np.sqrt((mix ** 2).mean())
 print('asmr sfx', round(mix.shape[0] / SR, 2), 's, rms dBFS %.1f' % (20 * np.log10(rms)))
