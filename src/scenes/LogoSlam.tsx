@@ -13,7 +13,6 @@ export const LogoSlam: React.FC<{w?: number; h?: number}> = ({w = 1920, h = 1080
   const scale = interpolate(s, [0, 1], [2.6, 1]);
   const rot = interpolate(s, [0, 1], [-18, -5]);
   const shake = f < 10 ? (rand(f) - 0.5) * 26 * (1 - f / 10) : 0;
-  const flash = 1 - prog(f, 0, 8);
   const chip = sp(f, fps, BEAT, {damping: 14, stiffness: 300});
   const url = 'signalroom.studio';
   const typed = Math.floor(interpolate(f, [BEAT * 2, BEAT * 2 + url.length * 2], [0, url.length], clamp));
@@ -44,7 +43,6 @@ export const LogoSlam: React.FC<{w?: number; h?: number}> = ({w = 1920, h = 1080
         {url.slice(0, typed)}
         <span style={{opacity: typed < url.length || Math.floor(f / 15) % 2 ? 1 : 0}}>▍</span>
       </div>
-      <AbsoluteFill style={{background: '#fff', opacity: flash * 0.85}} />
       <Grain opacity={0.06} />
     </AbsoluteFill>
   );

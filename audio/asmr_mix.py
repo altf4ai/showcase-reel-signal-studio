@@ -48,8 +48,9 @@ for j in range(8):
     fx.place(tick(5000 - j * 150, amp=0.05), fr(120 + j * 2.4), 1, pan=-0.6 + j * 0.15)
 keys(180, 11, 1.6, 0.24, seed=40)
 fx.place(air_whoosh(0.9, 300, 6000, -0.2, 0.2, 0.6), fr(186), 1)
-fx.place(knob_detent(0.5), fr(238), 1)
-fx.place(crackle(0.4, 0.004, 0.3), fr(246), 1)
+room.place(air_swell(0.45, 0.22, 600, 7000), fr(235), 1)      # light-speed whiteout
+fx.place(soft_thump(0.5, 120, 60), fr(262), 1)                 # cut to "no signal"
+fx.place(crackle(0.25, 0.01, 0.3), fr(262), 1)
 
 # ---------------------------------------------------------------- Tune in (preloader)
 fx.place(crackle(3.6, 0.0015, 0.16), fr(262), 1)
@@ -58,8 +59,7 @@ fx.place(soft_ping(660, 0.6, 0.16), fr(270), 1)
 fx.place(soft_ping(880, 0.6, 0.16), fr(300), 1)
 fx.place(soft_ping(1320, 0.7, 0.15), fr(360), 1)
 fx.place(soft_ping(1760, 0.7, 0.08), fr(363), 1)
-fx.place(air_whoosh(0.35, 800, 5000, 0.3, -0.3, 0.45), fr(418), 1)
-fx.place(air_whoosh(0.3, 400, 3000, 0, 0, 0.35), fr(446), 1)
+room.place(air_swell(0.75, 0.24, 300, 6000), fr(432), 1)      # rush into the green light
 
 # ---------------------------------------------------------------- Logo slam + hero
 fx.place(soft_thump(0.8, 110, 50), fr(480), 1)

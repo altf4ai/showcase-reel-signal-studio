@@ -3,7 +3,7 @@ import {AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame} from 'remot
 import {Footage, hasCapture, keyMap} from '../components/Footage';
 import {Grain} from '../components/Grain';
 import {clash, satoshi} from '../fonts';
-import {E, clamp, prog, rand} from '../lib/anim';
+import {E, clamp, prog} from '../lib/anim';
 import {BEAT, RAR} from '../theme';
 
 /** Letters rise out of a mask, staggered. */
@@ -27,21 +27,15 @@ const MaskWord: React.FC<{text: string; start: number; exit?: number; size: numb
   );
 };
 
-/** Text that resolves out of random glyphs (creative-tech decode). */
-const Decode: React.FC<{text: string; start: number; dur?: number; style?: React.CSSProperties}> = ({text, start, dur = 16, style}) => {
+/** Clean label reveal: slides up out of a mask and fades in. No glyph scrambling. */
+const Label: React.FC<{text: string; start: number; style?: React.CSSProperties}> = ({text, start, style}) => {
   const f = useCurrentFrame();
-  const glyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#/+=';
-  const out = text
-    .split('')
-    .map((ch, i) => {
-      if (ch === ' ') return ' ';
-      const t = (f - start - i * 0.9) / dur;
-      if (t < 0) return ' ';
-      if (t >= 1) return ch;
-      return glyphs[Math.floor(rand(i * 31 + Math.floor(f / 2)) * glyphs.length)];
-    })
-    .join('');
-  return <span style={style}>{out}</span>;
+  const p = prog(f, start, start + 18, E.out);
+  return (
+    <span style={{display: 'inline-block', overflow: 'hidden', verticalAlign: 'top'}}>
+      <span style={{display: 'inline-block', transform: `translateY(${(1 - p) * 110}%)`, opacity: p, ...style}}>{text}</span>
+    </span>
+  );
 };
 
 // Centre of the black hole's shadow in the 1920x1080 capture.
@@ -51,17 +45,17 @@ export const RarOpen: React.FC = () => {
   const f = useCurrentFrame();
   const HIT = BEAT * 4; // 120: title hit
   const INTRO = BEAT * 6; // 180: "introducing"
-  const END = BEAT * 8; // 240
+  const END = 262; // cut straight to Signalroom's preloader on the whiteout
 
   // rar_hole capture: the hole materialises ~src 20 and grows; hold it steady and full by the hit.
   const holeMap = keyMap([[0, 10], [HIT, 150], [END, 250]]);
   // rar_dive capture: scroll-driven push through the event horizon into the light streaks.
-  const diveMap = keyMap([[INTRO + 6, 30], [END, 250]]);
+  const diveMap = keyMap([[INTRO + 6, 30], [INTRO + 40, 150], [END, 270]]);
   const dive = hasCapture('rar_dive') ? prog(f, INTRO + 6, INTRO + 20, E.inOut) : 0;
   const push = interpolate(f, [0, END], [1.0, 1.08], clamp);
   const energy = Math.max(0, 1 - Math.abs(f - HIT) / 18);
-  // fade INTRODUCING as the CRT switch approaches
-  const intf = prog(f, END - 26, END, E.in);
+  // light-speed whiteout into the cut
+  const white = prog(f, END - 16, END, E.in);
 
   const labels: React.CSSProperties = {fontFamily: satoshi, fontWeight: 600, fontSize: 15, letterSpacing: '0.24em', color: RAR.iceDim, textTransform: 'uppercase'};
   const labelIn = prog(f, 30, 60, E.out);
@@ -82,16 +76,16 @@ export const RarOpen: React.FC = () => {
       )}
       {/* corner system labels */}
       <div style={{position: 'absolute', left: 64, top: 56, ...labels, opacity: labelIn}}>
-        <Decode text="FULL-STACK CREATIVE TECH AGENCY" start={30} />
+        <Label text="FULL-STACK CREATIVE TECH AGENCY" start={30} />
       </div>
       <div style={{position: 'absolute', right: 64, top: 56, ...labels, opacity: labelIn, textAlign: 'right'}}>
-        <Decode text="MUMBAI — 19.07°N 72.87°E" start={36} />
+        <Label text="MUMBAI — 19.07°N 72.87°E" start={36} />
       </div>
       <div style={{position: 'absolute', left: 64, bottom: 52, ...labels, opacity: labelIn}}>
-        <Decode text="RAR / 2026" start={42} />
+        <Label text="RAR / 2026" start={42} />
       </div>
       <div style={{position: 'absolute', right: 64, bottom: 52, ...labels, opacity: labelIn, textAlign: 'right'}}>
-        <Decode text="TRANSMISSION 01" start={46} />
+        <Label text="TRANSMISSION 01" start={46} />
       </div>
       {/* mark */}
       <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', transform: `translate(${HOLE.x - 960}px, ${HOLE.y - 540}px)`}}>
@@ -102,12 +96,12 @@ export const RarOpen: React.FC = () => {
       <div style={{position: 'absolute', left: 0, right: 0, bottom: 118, display: 'flex', justifyContent: 'center'}}>
         <MaskWord text="RISE ABOVE REALITY" start={HIT} exit={INTRO - 8} size={172} />
       </div>
-      {/* introducing */}
-      <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', transform: 'translateY(-70px)'}}>
-        <div style={{opacity: prog(f, INTRO, INTRO + 4) * (1 - intf * 0.4)}}>
-          <Decode text="INTRODUCING" start={INTRO} dur={14} style={{fontFamily: clash, fontWeight: 500, fontSize: 64, letterSpacing: '0.42em', color: RAR.ice, marginLeft: '0.42em'}} />
-        </div>
+      {/* introducing — masked rise, then it rides the light-speed dive */}
+      <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', transform: `translateY(-30px) scale(${1 + prog(f, INTRO + 20, END, E.in) * 0.35})`,
+        opacity: 1 - prog(f, END - 14, END - 4)}}>
+        <MaskWord text="INTRODUCING" start={INTRO} size={66} weight={500} tracking="0.42em" stagger={1.4} />
       </AbsoluteFill>
+      <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 47%, #ffffff 0%, #EEF4FF 35%, #5AC8FF 100%)', opacity: white}} />
       <Grain opacity={0.08} />
     </AbsoluteFill>
   );
