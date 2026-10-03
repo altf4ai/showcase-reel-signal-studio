@@ -1,0 +1,55 @@
+{
+  "_doc": "Client-reaction reel edit list. 30fps, 120 BPM (15 frames per beat). Shots play back to back; keys map local frame -> source seconds (optional 3rd item = easing into that key). 'slo' = use the 4x motion-interpolated clip for that range. 'audio': 'follow' (default), 'none', or {src, dur} for an L-cut region that starts with the shot. Read by src/reaction/*.tsx and audio/reel_mix.py.",
+  "fps": 30,
+  "slo": {
+    "hook":    {"from": 1011, "to": 1056},
+    "cheer":   {"from": 2031, "to": 2076},
+    "reveal":  {"from": 2316, "to": 2346},
+    "verdict": {"from": 6120, "to": 6156}
+  },
+  "shots": [
+    {"id": "hook",     "sec": "hook",    "dur": 24, "keys": [[0, 33.60], [24, 34.40]]},
+    {"id": "hookSlo",  "sec": "hook",    "dur": 36, "keys": [[0, 34.40], [36, 34.70, "out"]], "slo": "hook"},
+    {"id": "hookHold", "sec": "hook",    "dur": 30, "keys": [[0, 34.70]], "slo": "hook", "audio": "none"},
+    {"id": "rewind",   "sec": "rewind",  "dur": 30, "keys": [[0, 34.70], [30, 0.40, "in"]]},
+
+    {"id": "greet",    "sec": "arrive",  "dur": 45, "keys": [[0, 0.40], [45, 1.90]], "audio": {"src": 0.40, "dur": 90}},
+    {"id": "walkIn",   "sec": "arrive",  "dur": 30, "keys": [[0, 2.55], [30, 3.55]], "audio": "none"},
+    {"id": "gesture",  "sec": "arrive",  "dur": 15, "keys": [[0, 9.45], [15, 9.95]], "audio": "none"},
+    {"id": "toScreen", "sec": "arrive",  "dur": 30, "keys": [[0, 12.05], [30, 13.05]]},
+
+    {"id": "hole",     "sec": "film",    "dur": 60, "keys": [[0, 14.00], [60, 16.00]]},
+    {"id": "slam",     "sec": "film",    "dur": 30, "keys": [[0, 16.75], [30, 17.75]]},
+    {"id": "watch",    "sec": "film",    "dur": 45, "keys": [[0, 31.10], [45, 32.60]]},
+    {"id": "point",    "sec": "film",    "dur": 45, "keys": [[0, 47.10], [45, 48.60]]},
+    {"id": "phones",   "sec": "film",    "dur": 30, "keys": [[0, 52.00], [30, 53.00]]},
+    {"id": "intent",   "sec": "film",    "dur": 30, "keys": [[0, 59.40], [30, 60.40]]},
+    {"id": "endCard",  "sec": "film",    "dur": 60, "keys": [[0, 63.50], [60, 65.50]]},
+
+    {"id": "cheer",    "sec": "cheer",   "dur": 90, "keys": [[0, 67.60], [18, 68.20], [30, 68.40], [90, 68.95]], "slo": "cheer"},
+
+    {"id": "preload",  "sec": "site",    "dur": 90, "keys": [[0, 74.40], [90, 77.40]]},
+    {"id": "reveal",   "sec": "site",    "dur": 60, "keys": [[0, 77.40], [2, 77.467], [20, 77.767], [60, 79.10]], "slo": "reveal"},
+    {"id": "closeUp",  "sec": "site",    "dur": 30, "keys": [[0, 81.30], [30, 82.30]]},
+    {"id": "bigLaugh", "sec": "site",    "dur": 30, "keys": [[0, 82.85], [30, 83.85]]},
+    {"id": "handHead", "sec": "site",    "dur": 30, "keys": [[0, 91.45], [30, 92.45]]},
+    {"id": "turn",     "sec": "site",    "dur": 30, "keys": [[0, 96.70], [30, 97.70]]},
+
+    {"id": "m1", "sec": "montage", "dur": 15, "keys": [[0, 131.00], [15, 131.50]], "audio": {"src": 131.0, "dur": 120}},
+    {"id": "m2", "sec": "montage", "dur": 15, "keys": [[0, 134.10], [15, 134.60]], "audio": "none"},
+    {"id": "m3", "sec": "montage", "dur": 15, "keys": [[0, 141.20], [15, 141.70]], "audio": "none"},
+    {"id": "m4", "sec": "montage", "dur": 15, "keys": [[0, 146.00], [15, 146.50]], "audio": "none"},
+    {"id": "m5", "sec": "montage", "dur": 15, "keys": [[0, 161.20], [15, 161.70]], "audio": "none"},
+    {"id": "m6", "sec": "montage", "dur": 15, "keys": [[0, 213.30], [15, 213.80]], "audio": "none"},
+    {"id": "m7", "sec": "montage", "dur": 15, "keys": [[0, 236.10], [15, 236.60]], "audio": "none"},
+    {"id": "m8", "sec": "montage", "dur": 15, "keys": [[0, 247.00], [15, 247.50]], "audio": "none"},
+
+    {"id": "look",     "sec": "verdict", "dur": 30, "keys": [[0, 201.70], [30, 202.70]]},
+    {"id": "smile",    "sec": "verdict", "dur": 45, "keys": [[0, 202.70], [45, 204.20]]},
+    {"id": "mindSlo",  "sec": "verdict", "dur": 45, "keys": [[0, 204.20], [45, 204.92, "out"]], "slo": "verdict"},
+    {"id": "mindHold", "sec": "verdict", "dur": 30, "keys": [[0, 204.92]], "slo": "verdict", "audio": "none"},
+
+    {"id": "laughEnd", "sec": "ending",  "dur": 90, "keys": [[0, 265.40], [90, 268.40]]},
+    {"id": "end",      "sec": "end",     "dur": 120, "keys": [[0, 268.40]], "audio": {"src": 268.40, "dur": 40}}
+  ]
+}
