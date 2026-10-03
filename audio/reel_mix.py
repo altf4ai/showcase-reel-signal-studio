@@ -541,9 +541,13 @@ def lufs(x):
 
 
 def limit(x, ceiling=0.79, look=0.005, release=0.12):
-    """Look-ahead peak limiter (ceiling -2 dBFS: leaves room for AAC inter-sample overs)."""
+    """Look-ahead true-peak limiter: peaks are measured on a 4x oversampled copy (what an AAC encoder
+    reconstructs), ceiling -2 dBTP."""
     from scipy.ndimage import maximum_filter1d
-    a = np.abs(x).max(axis=1)
+    from scipy.signal import resample_poly
+    up = np.abs(resample_poly(x, 4, 1, axis=0)).max(axis=1)
+    a = up[: len(up) // 4 * 4].reshape(-1, 4).max(axis=1)
+    a = np.pad(a, (0, max(0, len(x) - len(a))))[: len(x)]
     need = np.minimum(1.0, ceiling / np.maximum(a, 1e-9))
     w = int(look * SR)
     need = -maximum_filter1d(-need, size=2 * w + 1)            # min over the look-ahead window

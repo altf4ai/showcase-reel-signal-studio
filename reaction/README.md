@@ -35,6 +35,13 @@ Remotion clamps a frozen frame to the composition length, so ShotView offsets th
 | 1170-1260 | ending | the last laugh ("this is why we do what we do.") |
 | 1260-1380 | end card | Signal Room red, logo slam, signalroom.studio, RAR credit |
 
+## Deliverables (`deliverables/reaction-reel/`)
+- `Signalroom_client-reaction_reel_9x16_1080p30_MUSIC.mp4` — score + room audio + SFX
+- `Signalroom_client-reaction_reel_9x16_1080p30_NO-MUSIC.mp4` — room audio + SFX (add a trending sound in Instagram)
+- both H.264 High 14 Mbps, AAC 256k, -14 LUFS integrated, true peak below -1.5 dBFS
+- `reel_stem_room.wav`, `reel_stem_sfx.wav`, `reel_stem_music.wav` — stems for a re-balance
+- `cover_frame.jpg` — the hook freeze, usable as the reel cover
+
 ## Seedance inserts (proposed, not generated)
 Optional new camera angles via Seedance on Higgsfield. They wait on approval and nothing has been
 generated yet. See the proposal in the delivery notes.
