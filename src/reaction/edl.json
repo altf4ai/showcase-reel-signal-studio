@@ -8,10 +8,10 @@
     "verdict": {"from": 6120, "to": 6156}
   },
   "shots": [
-    {"id": "hook",     "sec": "hook",    "dur": 24, "keys": [[0, 33.60], [24, 34.40]]},
-    {"id": "hookSlo",  "sec": "hook",    "dur": 36, "keys": [[0, 34.40], [36, 34.70, "out"]], "slo": "hook"},
-    {"id": "hookHold", "sec": "hook",    "dur": 30, "keys": [[0, 34.70]], "slo": "hook", "audio": "none"},
-    {"id": "rewind",   "sec": "rewind",  "dur": 30, "keys": [[0, 34.70], [30, 0.40, "in"]]},
+    {"id": "hook",     "sec": "hook",    "dur": 24, "keys": [[0, 32.90], [24, 33.70]]},
+    {"id": "hookSlo",  "sec": "hook",    "dur": 36, "keys": [[0, 33.70], [36, 34.05, "out"]], "slo": "hook"},
+    {"id": "hookHold", "sec": "hook",    "dur": 30, "keys": [[0, 34.05]], "slo": "hook", "audio": "none"},
+    {"id": "rewind",   "sec": "rewind",  "dur": 30, "keys": [[0, 34.05], [30, 0.40, "in"]]},
 
     {"id": "greet",    "sec": "arrive",  "dur": 45, "keys": [[0, 0.40], [45, 1.90]], "audio": {"src": 0.40, "dur": 90}},
     {"id": "walkIn",   "sec": "arrive",  "dur": 30, "keys": [[0, 2.55], [30, 3.55]], "audio": "none"},

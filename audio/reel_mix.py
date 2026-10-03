@@ -209,7 +209,7 @@ def ring(dur=1.6, f=3700, amp=0.05):
 # hook: slow-motion entry, freeze
 fx.place(sub_drop(1.3, 62, 26, 0.4), T(AT['hookSlo']))
 fx.place(air_whoosh(0.9, 2500, 300, 0.3, -0.3, 0.35), T(AT['hookSlo']) - 0.05)
-fx.place(record_scratch(room[int(34.25 * SR):int(35.2 * SR)], 0.9), T(AT['hookHold']) - 0.03)   # scratching the laugh itself
+fx.place(record_scratch(room[int(33.55 * SR):int(34.5 * SR)], 0.9), T(AT['hookHold']) - 0.03)   # scratching the laugh itself
 fx.place(shutter(0.6), T(AT['hookHold']) + 0.02)
 fx.place(impact(2.2, 95, 30) * 0.25, T(AT['hookHold']))
 fx.place(ring(1.4, 3500, 0.03), T(AT['hookHold']) + 0.05)
@@ -540,8 +540,8 @@ def lufs(x):
     return -0.691 + 10 * np.log10(g.mean())
 
 
-def limit(x, ceiling=0.84, look=0.005, release=0.12):
-    """Look-ahead peak limiter (ceiling ~ -1.5 dBFS)."""
+def limit(x, ceiling=0.79, look=0.005, release=0.12):
+    """Look-ahead peak limiter (ceiling -2 dBFS: leaves room for AAC inter-sample overs)."""
     from scipy.ndimage import maximum_filter1d
     a = np.abs(x).max(axis=1)
     need = np.minimum(1.0, ceiling / np.maximum(a, 1e-9))
@@ -557,7 +557,7 @@ def limit(x, ceiling=0.84, look=0.005, release=0.12):
 
 
 def finish(x, target=-14.0):
-    """Loudness-normalise to Instagram's ~-14 LUFS with a -1.5 dBFS ceiling."""
+    """Loudness-normalise to Instagram's ~-14 LUFS with a -2 dBFS ceiling."""
     x = hp(x.T, 30).T
     for _ in range(3):                      # the limiter shaves a little loudness each pass
         x = limit(x * 10 ** ((target - lufs(x)) / 20))

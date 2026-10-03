@@ -10,7 +10,8 @@ cd "$(dirname "$0")/.."
 for n in hook cheer reveal verdict; do [ -f public/react/slo_$n.mp4 ] || { ./reaction/slomo.sh; break; }; done
 python3 audio/reel_mix.py
 mkdir -p out/reel
-npx remotion render src/index.ts ReactionReel out/reel/master.mp4 --concurrency=4 --crf=10 --muted --log=error
+# SKIP_RENDER=1 re-encodes an existing out/reel/master.mp4 (e.g. after an audio-only change)
+[ "${SKIP_RENDER:-0}" = 1 ] || npx remotion render src/index.ts ReactionReel out/reel/master.mp4 --concurrency=4 --crf=10 --muted --log=error
 
 OUT=deliverables/reaction-reel
 NAME=Signalroom_client-reaction_reel_9x16_1080p30
