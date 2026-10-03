@@ -19,8 +19,10 @@ export const ShotView: React.FC<{shot: Shot; cam?: Cam; jitter?: number; filter?
   return (
     <AbsoluteFill style={{overflow: 'hidden', background: '#000'}}>
       <AbsoluteFill style={{transformOrigin: `${(cam.x ?? 0.5) * 100}% ${(cam.y ?? 0.5) * 100}%`, transform: `translateX(${jx}px) scale(${s})`, filter}}>
-        <Freeze frame={index}>
-          <OffthreadVideo src={staticFile(file)} muted style={{width: '100%', height: '100%', objectFit: 'cover', display: 'block'}} />
+        {/* Remotion clamps the timeline frame to the composition length (1380), so a source frame past
+            0:46 can't be reached with <Freeze frame={index}>. Freeze at 0 and offset the media instead. */}
+        <Freeze frame={0}>
+          <OffthreadVideo src={staticFile(file)} trimBefore={index} muted style={{width: '100%', height: '100%', objectFit: 'cover', display: 'block'}} />
         </Freeze>
       </AbsoluteFill>
     </AbsoluteFill>

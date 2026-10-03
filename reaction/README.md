@@ -19,7 +19,7 @@ scripts/render_reel.sh   everything above + film grain + final encodes -> delive
 ```
 `src/reaction/edl.json` is the single edit list. The picture and the audio script both read it, so
 re-timing a shot keeps the sound in sync. Preview on the ungraded file with `--props='{"raw":true}'`.
-Note: Remotion seeks the WhatsApp original badly after about 45s, so use the graded file for real renders.
+Remotion clamps a frozen frame to the composition length, so ShotView offsets the media with `trimBefore` instead.
 
 ## Story (30fps frames)
 | frames | beat | what's on screen |
